@@ -186,6 +186,7 @@ programCommand('upload')
 
     const startMs = Date.now();
     log.info('started at: ' + startMs.toString());
+
     try {
       await uploadV2({
         files: supportedFiles,
@@ -505,28 +506,28 @@ programCommand('show')
       const machine = await anchorProgram.account.candyMachine.fetch(
         cacheContent.program.candyMachine,
       );
-      log.info('...Candy Machine...');
-      log.info('Key:', cacheContent.program.candyMachine);
+      log.info('--------------------------------');
+      log.info('Candy Machine:', cacheContent.program.candyMachine);
       //@ts-ignore
-      log.info('authority: ', machine.authority.toBase58());
+      log.info('> Authority: ', machine.authority.toBase58());
       //@ts-ignore
-      log.info('wallet: ', machine.wallet.toBase58());
+      log.info('> Wallet: ', machine.wallet.toBase58());
       //@ts-ignore
       log.info(
-        'tokenMint: ',
+        '> Token Mint: ',
         //@ts-ignore
         machine.tokenMint ? machine.tokenMint.toBase58() : null,
       );
       //@ts-ignore
-      log.info('uuid: ', machine.data.uuid);
+      log.info('> uuid: ', machine.data.uuid);
       //@ts-ignore
-      log.info('price: ', machine.data.price.toNumber());
+      log.info('> price: ', machine.data.price.toNumber());
       //@ts-ignore
-      log.info('itemsAvailable: ', machine.data.itemsAvailable.toNumber());
+      log.info('> Items Available: ', machine.data.itemsAvailable.toNumber());
       //@ts-ignore
-      log.info('itemsRedeemed: ', machine.itemsRedeemed.toNumber());
+      log.info('> Items Redeemed: ', machine.itemsRedeemed.toNumber());
       log.info(
-        'goLiveDate: ',
+        '> Go Live Date: ',
         //@ts-ignore
         machine.data.goLiveDate
           ? //@ts-ignore
@@ -534,68 +535,74 @@ programCommand('show')
           : 'N/A',
       );
       //@ts-ignore
-      log.info('symbol: ', machine.data.symbol);
+      log.info('> Symbol: ', machine.data.symbol);
       //@ts-ignore
-      log.info('sellerFeeBasisPoints: ', machine.data.sellerFeeBasisPoints);
+      log.info('> SellerFeeBasisPoints: ', machine.data.sellerFeeBasisPoints);
       //@ts-ignore
-      log.info('creators: ');
+      log.info('> Creators: ');
       //@ts-ignore
       machine.data.creators.map(c =>
-        log.info(c.address.toBase58(), 'at', c.share, '%'),
+        log.info('    * ', c.address.toBase58(), 'at', c.share, '%'),
       ),
         //@ts-ignore
-        log.info('maxSupply: ', machine.data.maxSupply.toNumber());
+        log.info('> Max Supply: ', machine.data.maxSupply.toNumber());
       //@ts-ignore
-      log.info('retainAuthority: ', machine.data.retainAuthority);
+      log.info('> Retain Authority: ', machine.data.retainAuthority);
       //@ts-ignore
-      log.info('isMutable: ', machine.data.isMutable);
+      log.info('> Is Mutable: ', machine.data.isMutable);
 
       //@ts-ignore
-      log.info('hidden settings: ', machine.data.hiddenSettings);
+      log.info('> Hidden Settings: ', machine.data.hiddenSettings);
       if (machine.data.endSettings) {
-        log.info('End settings: ');
+        log.info('    * End settings: ');
 
         if (machine.data.endSettings.endSettingType.date) {
           //@ts-ignore
-          log.info('End on', new Date(machine.data.endSettings.number * 1000));
+          log.info(
+            '    * End on',
+            new Date(machine.data.endSettings.number * 1000),
+          );
         } else {
           log.info(
-            'End when',
+            '    * End when',
             machine.data.endSettings.number.toNumber(),
             'sold',
           );
         }
       } else {
-        log.info('No end settings detected');
+        log.info('    * No end settings detected');
       }
 
       if (machine.data.gatekeeper) {
-        log.info('Captcha settings:');
+        log.info('> Captcha settings:');
         log.info(
-          'Gatekeeper:',
+          '    * Gatekeeper:',
           machine.data.gatekeeper.gatekeeperNetwork.toBase58(),
         );
-        log.info('Expires on use:', machine.data.gatekeeper.expireOnUse);
+        log.info('    * Expires on use:', machine.data.gatekeeper.expireOnUse);
       } else {
-        log.info('No captcha for this candy machine');
+        log.info('> Captcha settings: None');
       }
 
       if (machine.data.whitelistMintSettings) {
         //@ts-ignore
-        log.info('whitelist settings: ');
+        log.info('> Whitelist Settings: ');
         //@ts-ignore
-        log.info('Mint: ', machine.data.whitelistMintSettings.mint.toBase58());
+        log.info(
+          '    * Mint: ',
+          machine.data.whitelistMintSettings.mint.toBase58(),
+        );
         //@ts-ignore
-        log.info('Mode: ', machine.data.whitelistMintSettings.mode);
+        log.info('    * Mode: ', machine.data.whitelistMintSettings.mode);
         //@ts-ignore
-        log.info('Presale: ', machine.data.whitelistMintSettings.presale);
+        log.info('    * Presale: ', machine.data.whitelistMintSettings.presale);
         //@ts-ignore
         log.info(
           'Discounted Price: ',
           machine.data.whitelistMintSettings.discountPrice?.toNumber() || 'N/A',
         );
       } else {
-        log.info('no whitelist settings');
+        log.info('> Whitelist Settings: None');
       }
     } catch (e) {
       console.error(e);

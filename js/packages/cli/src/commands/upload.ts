@@ -302,7 +302,7 @@ export async function uploadV2({
   if (!hiddenSettings) {
     try {
       await Promise.all(
-        chunks(Array.from(Array(keys.length).keys()), 1000).map(
+        chunks(Array.from(Array(keys.length).keys()), 2000).map(
           async allIndexesInSlice => {
             for (
               let offset = 0;
